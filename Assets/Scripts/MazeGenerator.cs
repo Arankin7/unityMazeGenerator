@@ -12,14 +12,23 @@ public class MazeGenerator : MonoBehaviour
     private int mazeWidth,
                 mazeDepth;
 
+    [SerializeField]
+    Camera mainCamera;
+
+    float camXpos;
+    float camYpos;
+    float camZpos;
+
     private MazeCell[,] mazeGrid;
 
     [SerializeField]
     float waitTime = 0.1f;
 
-    IEnumerator Start()
+    public void StartMazeGeneration()
     {
         mazeGrid = new MazeCell[mazeWidth, mazeDepth];
+
+        SetCameraPosition();
 
         // using x, y, and z in lieu of i
         for(int x = 0; x < mazeWidth; x++)
@@ -30,15 +39,15 @@ public class MazeGenerator : MonoBehaviour
             }
         }
 
-        yield return GenerateMaze(null, mazeGrid[0, 0]);
+        GenerateMaze(null, mazeGrid[0, 0]);
     }
 
-    private IEnumerator GenerateMaze(MazeCell previousCell, MazeCell currentCell)
+    private void GenerateMaze(MazeCell previousCell, MazeCell currentCell)
     {
         currentCell.Visit();
         ClearWalls(previousCell, currentCell);
 
-        yield return new WaitForSeconds(waitTime);
+        //yield return new WaitForSeconds(waitTime);
 
         MazeCell nextCell;
 
@@ -48,7 +57,7 @@ public class MazeGenerator : MonoBehaviour
 
             if (nextCell != null)
             {
-                yield return GenerateMaze(currentCell, nextCell);
+                GenerateMaze(currentCell, nextCell);
             }
         } 
         while (nextCell != null);
@@ -107,6 +116,15 @@ public class MazeGenerator : MonoBehaviour
                 yield return cellToBack;
             }
         }
+    }
+
+    void SetCameraPosition()
+    {
+        camXpos = mazeWidth / 2;
+        camZpos = (mazeDepth / 2) + (mazeDepth / 4);
+        camYpos = ((mazeDepth + mazeWidth) / 2) + 5;
+
+        mainCamera.transform.position = new Vector3(camXpos, camYpos, camZpos);
     }
 
     private void ClearWalls(MazeCell previousCell, MazeCell currentCell)
