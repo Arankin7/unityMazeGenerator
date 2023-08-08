@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class MazeGenerator : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField]
     Camera mainCamera;
 
+    [SerializeField]
+    GameObject generateMazeUi;
+
     float camXpos;
     float camYpos;
     float camZpos;
@@ -23,6 +27,10 @@ public class MazeGenerator : MonoBehaviour
 
     [SerializeField]
     float waitTime = 0.1f;
+
+    [SerializeField]
+    InputField widthInput, depthInput;
+
 
     public void StartMazeGeneration()
     {
@@ -40,6 +48,8 @@ public class MazeGenerator : MonoBehaviour
         }
 
         GenerateMaze(null, mazeGrid[0, 0]);
+
+        HideGenerateMazeUI();
     }
 
     private void GenerateMaze(MazeCell previousCell, MazeCell currentCell)
@@ -122,9 +132,28 @@ public class MazeGenerator : MonoBehaviour
     {
         camXpos = mazeWidth / 2;
         camZpos = (mazeDepth / 2) + (mazeDepth / 4);
-        camYpos = ((mazeDepth + mazeWidth) / 2) + 5;
+        camYpos = ((mazeDepth + mazeWidth) / 2) + ((mazeDepth + mazeWidth) / 4);
 
         mainCamera.transform.position = new Vector3(camXpos, camYpos, camZpos);
+    }
+
+    public void SetMazeWidth()
+    {
+        int width = int.Parse(widthInput.text);
+
+        mazeWidth = width;
+    }
+
+    public void SetMazeDepth()
+    {
+        int depth = int.Parse(depthInput.text);
+
+        mazeDepth = depth;
+    }
+
+    void HideGenerateMazeUI()
+    {
+        generateMazeUi.SetActive(false);
     }
 
     private void ClearWalls(MazeCell previousCell, MazeCell currentCell)
