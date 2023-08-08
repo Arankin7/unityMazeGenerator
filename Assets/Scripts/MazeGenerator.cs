@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MazeGenerator : MonoBehaviour
 {
@@ -50,6 +51,11 @@ public class MazeGenerator : MonoBehaviour
         GenerateMaze(null, mazeGrid[0, 0]);
 
         HideGenerateMazeUI();
+    }
+
+    public void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void GenerateMaze(MazeCell previousCell, MazeCell currentCell)
