@@ -33,8 +33,8 @@ public class MazeGenerator : MonoBehaviour
 
     private MazeCell[,] mazeGrid;
 
-    [SerializeField]
-    float waitTime = 0.1f;
+    //[SerializeField]
+    //float waitTime = 0.1f;
 
     [SerializeField]
     InputField widthInput, depthInput;
