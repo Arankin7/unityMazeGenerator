@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MazeGenerator : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField]
     GameObject generateMazeUi;
 
+    bool badDimensions;
+
     float camXpos;
     float camYpos;
     float camZpos;
@@ -32,10 +35,24 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField]
     InputField widthInput, depthInput;
 
+    [SerializeField]
+    TextMeshProUGUI generatorText;
+
+    string badDimensionsWarning = "<i>Please try again. <br>The variance between the <b>Width</b> and <b>Depth</b> is too great.";
+
 
     public void StartMazeGeneration()
     {
         mazeGrid = new MazeCell[mazeWidth, mazeDepth];
+
+        CheckDimensions(mazeWidth, mazeDepth);
+
+        if (badDimensions)
+        {
+            print("Bad Dimensions");
+            WarnUserAboutDimensions();
+            return;
+        }
 
         SetCameraPosition();
 
@@ -47,6 +64,8 @@ public class MazeGenerator : MonoBehaviour
                 mazeGrid[x, z] = Instantiate(mazeCellPrefab, new Vector3(x, 0, z), Quaternion.identity);
             }
         }
+
+
 
         GenerateMaze(null, mazeGrid[0, 0]);
 
@@ -137,7 +156,7 @@ public class MazeGenerator : MonoBehaviour
     void SetCameraPosition()
     {
         camXpos = mazeWidth / 2;
-        camZpos = (mazeDepth / 2) + (mazeDepth / 4);
+        camZpos = (mazeDepth / 2); //+ (mazeDepth / 4);
         camYpos = ((mazeDepth + mazeWidth) / 2) + ((mazeDepth + mazeWidth) / 4);
 
         mainCamera.transform.position = new Vector3(camXpos, camYpos, camZpos);
@@ -155,6 +174,27 @@ public class MazeGenerator : MonoBehaviour
         int depth = int.Parse(depthInput.text);
 
         mazeDepth = depth;
+    }
+
+    public void CheckDimensions(int width, int depth)
+    {
+        if(width  > (depth * 2.5f))
+        {
+            print("Too wide");
+            badDimensions = true;
+        }
+
+        if (depth > (width * 2.5f))
+        {
+            print("Too Deep");
+            badDimensions = true;
+        }
+        else badDimensions = false;
+    }
+
+    public void WarnUserAboutDimensions()
+    {
+        generatorText.text = badDimensionsWarning;
     }
 
     void HideGenerateMazeUI()
