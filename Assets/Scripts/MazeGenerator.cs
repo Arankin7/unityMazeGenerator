@@ -49,7 +49,7 @@ public class MazeGenerator : MonoBehaviour
 
         if (badDimensions)
         {
-            print("Bad Dimensions");
+            //print("Bad Dimensions");
             WarnUserAboutDimensions();
             return;
         }
@@ -180,13 +180,13 @@ public class MazeGenerator : MonoBehaviour
     {
         if(width  > (depth * 2.5f))
         {
-            print("Too wide");
+            //print("Too wide");
             badDimensions = true;
         }
 
         if (depth > (width * 2.5f))
         {
-            print("Too Deep");
+            //print("Too Deep");
             badDimensions = true;
         }
         else badDimensions = false;
