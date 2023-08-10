@@ -25,7 +25,8 @@ public class MazeGenerator : MonoBehaviour
     Camera mainCamera;
 
     [SerializeField]
-    GameObject generateMazeUi;
+    GameObject generateMazeUi,
+               mazeCompleteUi;
 
     bool badDimensions;
 
@@ -43,7 +44,6 @@ public class MazeGenerator : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI generatorText,
-                    mazeCompleteText,
                     ftueText;
 
     string badDimensionsWarning = "<i>Please try again. <br>The variance between the <b>Width</b> and <b>Depth</b> is too great.";
@@ -229,7 +229,7 @@ public class MazeGenerator : MonoBehaviour
 
     public void DisplayGoalText()
     {
-        mazeCompleteText.gameObject.SetActive(true);
+        mazeCompleteUi.gameObject.SetActive(true);
     }
 
     void DisplayMovementFTUE()
