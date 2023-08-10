@@ -12,6 +12,10 @@ public class MazeGenerator : MonoBehaviour
     private MazeCell mazeCellPrefab;
 
     [SerializeField]
+    GameObject playerSphere,
+               goalCube;
+
+    [SerializeField]
     private int mazeWidth,
                 mazeDepth;
 
@@ -69,12 +73,24 @@ public class MazeGenerator : MonoBehaviour
 
         GenerateMaze(null, mazeGrid[0, 0]);
 
+        GeneratePlayerPrefab(mazeWidth);
+        GenerateGoalPrefab(mazeDepth);
+
         HideGenerateMazeUI();
     }
 
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    void GeneratePlayerPrefab(int xCoordinate)
+    {
+        Instantiate(playerSphere, new Vector3(xCoordinate - 1, 0.25f, 0), Quaternion.identity);
+    }
+    void GenerateGoalPrefab(int zCoordinate)
+    {
+        Instantiate(goalCube, new Vector3(0, 0.25f, zCoordinate - 1), Quaternion.identity);
     }
 
     private void GenerateMaze(MazeCell previousCell, MazeCell currentCell)
