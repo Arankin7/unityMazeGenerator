@@ -34,9 +34,17 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Goal"))
         {
-            print("yay goal");
+            MazeGenerator.mazeGenerator.DisplayGoalText();
+            SetGoalInactive(other.gameObject);
         }
     }
+
+    void SetGoalInactive(GameObject goal)
+    {
+        goal.SetActive(false);
+        gameObject.SetActive(false);
+    }
+
     private void FixedUpdate()
     {
         PlayerMove(horizontalInput, verticalInput);

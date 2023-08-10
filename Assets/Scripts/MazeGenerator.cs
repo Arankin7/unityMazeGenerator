@@ -8,6 +8,8 @@ using TMPro;
 
 public class MazeGenerator : MonoBehaviour
 {
+    public static MazeGenerator mazeGenerator;
+
     [SerializeField]
     private MazeCell mazeCellPrefab;
 
@@ -40,10 +42,16 @@ public class MazeGenerator : MonoBehaviour
     InputField widthInput, depthInput;
 
     [SerializeField]
-    TextMeshProUGUI generatorText;
+    TextMeshProUGUI generatorText,
+                    mazeCompleteText,
+                    ftueText;
 
     string badDimensionsWarning = "<i>Please try again. <br>The variance between the <b>Width</b> and <b>Depth</b> is too great.";
 
+    private void Awake()
+    {
+        mazeGenerator = this;
+    }
 
     public void StartMazeGeneration()
     {
@@ -77,6 +85,7 @@ public class MazeGenerator : MonoBehaviour
         GenerateGoalPrefab(mazeDepth);
 
         HideGenerateMazeUI();
+        DisplayMovementFTUE();
     }
 
     public void RestartScene()
@@ -216,6 +225,16 @@ public class MazeGenerator : MonoBehaviour
     void HideGenerateMazeUI()
     {
         generateMazeUi.SetActive(false);
+    }
+
+    public void DisplayGoalText()
+    {
+        mazeCompleteText.gameObject.SetActive(true);
+    }
+
+    void DisplayMovementFTUE()
+    {
+        ftueText.gameObject.SetActive(true);
     }
 
     private void ClearWalls(MazeCell previousCell, MazeCell currentCell)
